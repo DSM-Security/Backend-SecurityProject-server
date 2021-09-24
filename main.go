@@ -1,8 +1,8 @@
 package main
 
-import "fmt"
+import "github.com/Backend-SecurityProject-server/server"
 
 func main() {
 
-	fmt.Println("Hello World")
+	server.Start(8000)
 }
