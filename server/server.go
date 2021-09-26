@@ -1,10 +1,10 @@
 package server
 
 import (
-	"database/sql"
 	"fmt"
 	"log"
 
+	"github.com/Backend-SecurityProject-server/server/db"
 	"github.com/Backend-SecurityProject-server/server/v1/auth"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/gofiber/fiber/v2"
@@ -14,10 +14,8 @@ import (
 func Start(port int) {
 	app := fiber.New()
 
-	db, err := sql.Open("mysql", "root:4451@tcp(127.0.0.1:3306)/security")
-	log.Print(err)
-
-	defer db.Close()
+	db.Start()
+	defer db.CloseDB()
 
 	app.Use(cors.New())
 
