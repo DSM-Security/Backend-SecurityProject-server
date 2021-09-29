@@ -24,7 +24,7 @@ func Start(port int) {
 
 	v1auth := v1R.Group("auth")
 	v1auth.Post("/login", auth.Login)
-	v1auth.Post("/signup", auth.Login)
+	v1auth.Post("/signup", auth.Signup)
 
 	v1post := v1R.Group("post")
 	v1post.Get("/get", auth.Login)
