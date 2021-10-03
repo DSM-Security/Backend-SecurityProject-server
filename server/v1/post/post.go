@@ -1,9 +1,24 @@
 package post
 
 import (
+	"fmt"
+
 	"github.com/Backend-SecurityProject-server/server/db"
 	"github.com/gofiber/fiber/v2"
 )
+
+type post struct {
+	Pid       int    `json:"pid"`
+	Title     string `json:"title"`
+	Content   string `json:"content"`
+	Writer    string `json:"writer"`
+	CreatedAt string `json:"createdAt"`
+}
+
+type createReq struct {
+	Title   string `json:"title"`
+	Content string `json:"content"`
+}
 
 func CreatePost(c *fiber.Ctx) error {
 
@@ -13,9 +28,10 @@ func CreatePost(c *fiber.Ctx) error {
 }
 
 func GetPost(c *fiber.Ctx) error {
-	row, err := db.GetDB().Query("SELECT * FROM post")
-	defer row.Close()
+	var postResult post
+	row := db.GetDB().QueryRow("SELECT * FROM post")
 
+	err := row.Scan(&postResult)
 	if err != nil {
 		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 			"message": "Not Found",
@@ -27,11 +43,8 @@ func GetPost(c *fiber.Ctx) error {
 
 func DeletePost(c *fiber.Ctx) error {
 	pid := c.Params("pid")
-	if pid == "" {
-		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"message": "Bad Request",
-		})
-	}
+
+	fmt.Println(pid)
 
 	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"message": "Success to delete",
