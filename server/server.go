@@ -30,7 +30,7 @@ func Start(port int) {
 	v1post := v1R.Group("post")
 	v1post.Get("/get", post.GetPost)
 	v1post.Post("/post", post.CreatePost)
-	v1post.Delete("/delete", post.DeletePost)
+	v1post.Delete("/delete/:pid", post.DeletePost)
 
 	log.Fatal(app.Listen(":" + fmt.Sprint(port)))
 }
