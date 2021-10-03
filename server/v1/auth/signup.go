@@ -28,8 +28,7 @@ func Signup(c *fiber.Ctx) error {
 			"message": "Invalid user",
 		})
 	}
-
-	result, err := db.GetDB().Exec("INSERT INTO user (id, password, nickname) VALUES (?, ?, ?)", signupReq.Id, signupReq.Password, signupReq.Nickname)
+	result, err := db.GetDB().Query("INSERT INTO user (id, password, nickname) VALUES (?, ?, ?)", signupReq.Id, signupReq.Password, signupReq.Nickname)
 
 	if err != nil {
 		fmt.Println(err)
