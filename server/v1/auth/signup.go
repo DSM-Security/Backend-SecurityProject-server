@@ -23,7 +23,7 @@ func Signup(c *fiber.Ctx) error {
 	}
 
 	_, err = db.GetDB().Query("SELECT * FROM user WHERE id = ?", signupReq.Id)
-	if err != nil {
+	if err == nil {
 		return c.Status(400).JSON(fiber.Map{
 			"message": "Invalid user",
 		})
