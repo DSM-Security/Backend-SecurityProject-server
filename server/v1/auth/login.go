@@ -27,7 +27,7 @@ func Login(c *fiber.Ctx) error {
 		})
 	}
 
-	row, err := db.GetDB().Query("SELECT id FROM user WHERE id = ?", loginReq.Id)
+	row, err := db.GetDB().Query("SELECT * FROM user WHERE id = ?", loginReq.Id)
 	defer row.Close()
 
 	if err != nil {
