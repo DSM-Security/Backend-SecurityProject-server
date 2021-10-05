@@ -13,6 +13,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/gofiber/fiber/v2/middleware/monitor"
 )
 
 func Start(port int) {
@@ -23,6 +24,8 @@ func Start(port int) {
 
 	app.Use(cors.New())
 	app.Use(logger.New(utils.ConsoleLogger()))
+
+	app.Get("/dashboard", monitor.New())
 
 	api := app.Group("api")
 	v1R := api.Group("v1")
