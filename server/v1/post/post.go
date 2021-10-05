@@ -25,7 +25,7 @@ func CreatePost(c *fiber.Ctx) error {
 	var request createReq
 	err := c.BodyParser(&request)
 	if err != nil {
-		return c.Status(400).JSON(fiber.Map{
+		return c.Status(fiber.StatusForbidden).JSON(fiber.Map{
 			"message": "BadRequest",
 		})
 	}
@@ -36,7 +36,7 @@ func CreatePost(c *fiber.Ctx) error {
 	_, err = db.GetDB().Query("INSERT INTO post (title, content, writer) VALUES (?, ?, ?)", request.Title, request.Content, user.Id)
 	if err != nil {
 		fmt.Println(err)
-		return c.Status(400).JSON(fiber.Map{
+		return c.Status(fiber.StatusForbidden).JSON(fiber.Map{
 			"message": "Failed to save",
 		})
 	}
