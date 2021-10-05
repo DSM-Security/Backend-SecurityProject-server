@@ -22,16 +22,16 @@ func Login(c *fiber.Ctx) error {
 	var userResult User
 	err := c.BodyParser(&loginReq)
 	if err != nil {
-		return c.Status(400).JSON(fiber.Map{
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"message": "BadRequest",
 		})
 	}
 
-	row, err := db.GetDB().Query("SELECT * FROM user WHERE id = ?", loginReq.Id)
+	row, err := db.GetDB().Query("SELECT id FROM user WHERE id = ?", loginReq.Id)
 	defer row.Close()
 
 	if err != nil {
-		return c.Status(400).JSON(fiber.Map{
+		return c.Status(fiber.StatusNotFound).JSON(fiber.Map{
 			"message": "NotFound",
 		})
 	}
@@ -41,7 +41,7 @@ func Login(c *fiber.Ctx) error {
 	}
 
 	if userResult.Password != loginReq.Password {
-		return c.Status(403).JSON(fiber.Map{
+		return c.Status(fiber.StatusForbidden).JSON(fiber.Map{
 			"message": "Forbidden",
 		})
 	}
@@ -53,7 +53,7 @@ func Login(c *fiber.Ctx) error {
 
 	jwt := utils.AccessToken(payload)
 
-	return c.Status(200).JSON(fiber.Map{
+	return c.Status(fiber.StatusOK).JSON(fiber.Map{
 		"accessToken": jwt,
 	})
 }
